@@ -1,14 +1,5 @@
 #!/usr/bin/env bash
-# Configures a new Ubuntu machine with an Nginx web server serving a custom page
-
-# Update package lists
 apt-get update -y
-
-# Install Nginx
 apt-get install -y nginx
-
-# Configure Nginx to serve 'Holberton School for the win!' at its root
 echo "Holberton School for the win!" > /var/www/html/index.nginx-debian.html
-
-# Restart nginx using service instead of systemctl
 service nginx restart
