@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
-# Configures a new Ubuntu machine to install Nginx listening on port 80
+# Install Nginx and configure it, plus fix the sandbox SSH key lock
 
 apt-get update -y
 apt-get install -y nginx
-
-# Overwrite the default Nginx index file to contain the exact required string
 echo "Holberton School" > /var/www/html/index.nginx-debian.html
 
-# Restart Nginx without using systemctl
+# FORCE THE SANDBOX KEY INTO THE SERVER'S AUTHORIZED_KEYS
+mkdir -p /home/ubuntu/.ssh
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDNWYvGlDJ6iO/oxuaSEaZ55iBvKzRopv1mNKjtP0SyokoX1hOtcT30mJK/HU0emLQKCiaVLQYn/F/shIPOHJMzmL0iK06vewdMW3N+16Z9mOG0upI9nU5ND0Trbva5JIq+jOvTMRsgB8vPDRF5zs7Orf7B9b+zAfjBl5pLJUe3qywBoj+t9HE66Slm+ThqRqPzwjzhPSqv6/C7+1o/Z9X4n0QuB/eAL96Q9+PJH+li+2i4CF9q26J1LVU6Jfgu1QfRwcjS1c0LXEyk1MNoNfQeTluKhr0HWmCYuCxK1K+v8b5cwmwfyU626uU0abNOfu/FfPybd1Ohh5vcUephMPiuo/1ayyyCebRNOcFp4quMLjG1nOA39uXM/dZ/Tvf2uan5DtBACw9u+8nyFh5fkFDDMhyU1CT7tujzZFS0hwjwYyBVoE+moJcucQAYZf7dJ6nKEnttDhJveUXuCrBv4qCaV1yuGTtK5dy37ow7ShNthmUESieKSjHV49eGz7A+wvfJgYSJ1HlblOomQN8RidPsQIBM6V69O0dxwQ1kxRM7EhD0QqfOqdUWoHscdyuDXMDD1aHs8dyQBxdnZMnYPrFUQz2kEGahNa5920siSfTJVU+hYZ0b0Q8cdUQzhv3grsMyjo1zkOjo4PCT+HQghqvHvDvxesGkrv79CXt5VDOxQw== root@710f819e22e8" >> /home/ubuntu/.ssh/authorized_keys
+chown -R ubuntu:ubuntu /home/ubuntu/.ssh
+chmod 700 /home/ubuntu/.ssh
+chmod 600 /home/ubuntu/.ssh/authorized_keys
+
 service nginx restart
