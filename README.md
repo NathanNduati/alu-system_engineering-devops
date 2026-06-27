@@ -1,1 +1,1 @@
-Web Server project for ALU System Engineering
+ALU System Engineering DevOps - Web Server Project
