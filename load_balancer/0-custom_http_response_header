@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Configures a new Ubuntu machine with Nginx and a custom HTTP header
+
+sudo apt-get update -y
+sudo apt-get install nginx -y
+
+sudo sed -i '/listen 80 default_server;/a \ \ \ \ \ \ \ \ add_header X-Served-By $HOSTNAME;' /etc/nginx/sites-available/default
+sudo service nginx restart
