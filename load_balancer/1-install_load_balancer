@@ -15,8 +15,8 @@ frontend alu_frontend
 backend alu_backend
     balance roundrobin
     mode http
-    server 7112-web-01 34.237.242.75:80 check
-    server 7112-web-02 32.198.91.240:80 check
+    server web-01 34.237.242.75:80 check
+    server web-02 32.198.91.240:80 check
 HAPROXY
 
 sudo service haproxy restart
