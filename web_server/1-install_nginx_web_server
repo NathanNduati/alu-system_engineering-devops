@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-# Configures a new Ubuntu server with Nginx and a custom index page
-sudo apt-get update -y
-sudo apt-get install nginx -y
-sudo mkdir -p /var/www/html
-echo "Hello World!" | sudo tee /var/www/html/index.html
-sudo sed -i '/listen 80 default_server;/a \ \ \ \        add_header X-Served-By \$HOSTNAME;' /etc/nginx/sites-available/default
-sudo service nginx restart
+# Installs and configures Nginx web server on a new Ubuntu machine
+
+apt-get -y update
+apt-get -y install nginx
+echo "Holberton School for the win!" > /var/www/html/index.nginx-debian.html
+service nginx restart
