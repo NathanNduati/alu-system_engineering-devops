@@ -1,7 +1,18 @@
 #!/usr/bin/env bash
 # Configures a new Ubuntu machine with Nginx and a custom HTTP response header
 
-sudo apt-get update -y
-sudo apt-get install nginx -y
-sudo sed -i '/listen 80 default_server;/a \ \ \ \ \ \ \ \ add_header X-Served-By $HOSTNAME;' /etc/nginx/sites-available/default
-sudo service nginx restart
+# Update package lists
+apt-get update -y
+
+# Install nginx
+apt-get install -y nginx
+
+# Set up standard custom index text from previous project task
+echo "Holberton School for the win!" > /var/www/html/index.nginx-debian.html
+
+# Inject custom HTTP header X-Served-By with the server's current hostname
+# We use sed to insert it inside the HTTP configuration block
+sed -i "/http {/a \\\tadd_header X-Served-By \$hostname;" /etc/nginx/nginx.conf
+
+# Restart Nginx safely without systemctl
+service nginx restart
