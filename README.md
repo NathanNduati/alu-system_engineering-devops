@@ -1,1 +1,2 @@
-ALU System Engineering DevOps - Web Server Project
+# ALU System Engineering & DevOps
+Repository for system engineering assignments.
