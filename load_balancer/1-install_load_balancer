@@ -1,29 +1,42 @@
 #!/usr/bin/env bash
-# Configures a new Ubuntu machine with HAProxy to distribute traffic to web servers
+# Installs and configures HAProxy on lb-01 to balance traffic across web-01 and web-02
 
-# Update package lists
 apt-get update -y
-
-# Install HAProxy
+apt-get install -y --no-install-recommends software-properties-common
+add-apt-repository -y ppa:vbernat/haproxy-2.0
+apt-get update -y
 apt-get install -y haproxy
 
-# Enable HAProxy init script management
 echo "ENABLED=1" > /etc/default/haproxy
 
-# Configure HAProxy routing block
-cat <<EOF >> /etc/nginx/../haproxy/haproxy.cfg
+cat << 'EOF' > /etc/haproxy/haproxy.cfg
+global
+log /dev/loglocal0
+log /dev/loglocal1 notice
+chroot /var/lib/haproxy
+stats socket /run/haproxy/admin.sock mode 660 level admin expose-fd listeners
+stats timeout 30s
+user haproxy
+group haproxy
+daemon
+
+defaults
+logglobal
+modehttp
+optionhttplog
+optiondontlognull
+timeout connect 5000
+timeout client  50000
+timeout server  50000
 
 frontend http_front
-    bind *:80
-    mode http
-    default_backend http_back
+bind *:80
+default_backend http_back
 
 backend http_back
-    balance roundrobin
-    mode http
-    server 7112-web-01 44.203.111.212:80 check
-    server 7112-web-02 44.204.52.194:80 check
+balance roundrobin
+server 7112-web-01 44.203.111.212:80 check
+server 7112-web-02 44.204.52.194:80 check
 EOF
 
-# Restart HAProxy safely using service init script style
 service haproxy restart
